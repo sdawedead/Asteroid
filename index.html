@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <title>Asteroid Walk</title>
+  <link rel="stylesheet" href="./style.css?v=10" />
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <img id="landingBennu" src="./assets/bennu_rotation.gif" alt="" aria-hidden="true" decoding="async" />
+  <div id="visor" class="visor hidden"></div>
+  <div id="grain" class="grain"></div>
+
+  <section id="landing" class="panel landing">
+    <div class="eyebrow">NOMADIC LABS // ASTEROID WALK</div>
+    <h1>STAND ON<br><span>ANOTHER WORLD</span></h1>
+    <p class="lead">A first-person surface experience built around real asteroid scale, gravity and mission imagery. No atmosphere. No blue sky. No soft sunlight.</p>
+    <div id="asteroidCards" class="cards"></div>
+    <div class="launchRow">
+      <button id="landBtn" class="primary">ENTER BENNU EVA</button>
+      <button id="scienceBtn" class="ghost">REALISM NOTES</button>
+      <button id="missionBtn" class="ghost">MISSION IMAGES</button>
+      <button id="qualityBtn" class="ghost qualityBtn" type="button">HD QUALITY: ON</button>
+    </div>
+    <p class="tiny">Desktop: WASD + mouse. Mobile: left joystick + drag to look. Headphones optional. Space is silent.</p>
+  </section>
+
+  <section id="hud" class="hud hidden">
+    <button id="mobileBackBtn" class="mobileBackBtn" aria-label="Back to asteroid selection">←</button>
+    <div class="mobileTitle">Asteroid Walk<span></span></div>
+    <button id="mobileMenuBtn" class="mobileMenuBtn" aria-label="Open information menu">•••</button>
+    <div class="evaTag"><i></i> EVA // <span id="evaWorld">BENNU</span></div>
+    <div class="hudTop">
+      <div class="hudBox asteroidNameBox">
+        <span class="label">SURFACE</span>
+        <strong id="hudName">BENNU</strong>
+        <span id="hudType" class="sub">Carbon-rich rubble pile</span>
+      </div>
+      <div class="hudBox metrics">
+        <div><span class="label">LOCAL g</span><strong id="hudGravity">0.00008 m/s2</strong></div>
+        <div><span class="label">ESCAPE</span><strong id="hudEscape">0.20 m/s</strong></div>
+        <div><span class="label">BODY SIZE</span><strong id="hudSize">492 m</strong></div>
+      </div>
+    </div>
+
+    <div class="crosshair"><i></i><b></b></div>
+    <div class="statusStrip">
+      <span id="distanceReadout">TRAVERSE 0 m</span>
+      <span id="altitudeReadout">BOOT ALT +0.0 m</span>
+      <span id="horizonReadout">EYE HORIZON ~29 m</span>
+    </div>
+
+    <button id="worldBtn" class="roundBtn worldBtn" aria-label="Choose asteroid">MAP</button>
+    <button id="jumpBtn" class="jumpBtn">PUSH OFF</button>
+    <button id="escapeBtn" class="escapeBtn">ESCAPE TEST</button>
+    <button id="orbitBtn" class="orbitBtn">ORBIT</button>
+    <div id="joystick" class="joystick"><div id="stick" class="stick"></div></div>
+    <div id="lookZone" class="lookZone"></div>
+    <div id="desktopHint" class="desktopHint">CLICK TO LOOK &middot; WASD CAREFUL TRAVERSE &middot; SPACE PUSH OFF</div>
+  </section>
+
+  <section id="science" class="panel modal hidden">
+    <button class="close" data-close="science">&times;</button>
+    <div class="eyebrow">REALISM NOTES</div>
+    <h2>Built to feel small.</h2>
+    <p><strong>Bennu is tiny enough that the horizon at standing eye height is only about 29 metres away.</strong> This build now curves the local surface around the asteroid instead of using a flat game plane.</p>
+    <p>Lighting is vacuum-style: one hard Sun, almost no ambient fill, black sky, sharp boulder shadows and no atmospheric haze. Surface colour is intentionally muted because Bennu is extremely dark.</p>
+    <p><strong>Bennu uses real NASA OSIRIS-REx Nightingale terrain.</strong> In HD mode, the 4.29-million-triangle mission mesh provides the actual boulders, slopes and surface relief. Balanced mode uses a lighter heightfield with procedural filler stones. Bennu orbit mode loads a lightweight version of NASA’s global OSIRIS-REx shape model with mission albedo imagery. Eros and Kleopatra currently use scale-matched shape approximations. The high-detail Nightingale mesh remains the local landing site.</p>
+    <div class="scienceGrid">
+      <div><strong>BENNU</strong><span>OSIRIS-REx reference</span></div>
+      <div><strong>EROS</strong><span>NEAR Shoemaker reference</span></div>
+      <div><strong>KLEOPATRA</strong><span>Radar / VLT shape context</span></div>
+    </div>
+    <p class="tiny">Bennu landing zone: Nightingale. Source geometry: NASA SVS / OSIRIS-REx. The giant Jupiter vista is a cinematic visual layer inspired by NASA/JPL imagery, not Bennu's real sky. Low-gravity push-off time is compressed so a hop does not take several real minutes. Visual scale and 1.72 m eye height remain human-scale.</p>
+  </section>
+
+  <section id="missionGallery" class="panel modal missionGallery hidden" aria-labelledby="missionTitle">
+    <button class="close" data-close="missionGallery" aria-label="Close mission images">&times;</button>
+    <div class="eyebrow">NASA / JAXA ARCHIVE</div>
+    <h2 id="missionTitle">Real asteroid imagery.</h2>
+    <p>Mission photographs and a NASA surface-model view. These are scientific references for the worlds in Asteroid Walk.</p>
+    <div class="missionGrid">
+      <a class="missionCard" href="https://svs.gsfc.nasa.gov/4795/" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/mission_bennu.jpg" alt="NASA global 3D surface model of asteroid Bennu" loading="lazy">
+        <span><strong>BENNU</strong><small>OSIRIS-REx · NASA 3D surface model</small></span>
+      </a>
+      <a class="missionCard" href="https://www.hayabusa2.jaxa.jp/topics/20180725je/index_e.html" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/mission_ryugu.jpg" alt="Asteroid Ryugu photographed by Hayabusa2 from about six kilometres" loading="lazy">
+        <span><strong>RYUGU</strong><small>Hayabusa2 · JAXA, from ~6 km</small></span>
+      </a>
+      <a class="missionCard" href="https://www.jpl.nasa.gov/images/pia15678-full-view-of-vesta/" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/mission_vesta.jpg" alt="Dawn mission mosaic showing asteroid Vesta" loading="lazy">
+        <span><strong>VESTA</strong><small>Dawn · NASA/JPL global mosaic</small></span>
+      </a>
+      <a class="missionCard" href="https://science.nasa.gov/resource/nears-first-whole-eros-mosaic-from-orbit/" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/mission_eros.jpg" alt="First whole-asteroid mosaic of Eros from the NEAR Shoemaker spacecraft" loading="lazy">
+        <span><strong>EROS</strong><small>NEAR Shoemaker · NASA/JPL orbital mosaic</small></span>
+      </a>
+    </div>
+    <p class="tiny">Each image links to its mission or archive source. Bennu’s image is a NASA rendering from mission data; the others are spacecraft photographs or mosaics.</p>
+  </section>
+
+  <section id="escapeOverlay" class="escapeOverlay hidden">
+    <div class="escapeCard">
+      <span class="warning">TRAJECTORY WARNING</span>
+      <h2>You are leaving <span id="escapeWorld">Bennu</span>.</h2>
+      <p id="escapeCopy">Your push exceeded local escape speed.</p>
+      <button id="returnBtn" class="primary">RESET TO SURFACE</button>
+    </div>
+  </section>
+
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.181.0/build/three.module.js"}}</script>
+  <script type="module" src="./app.js?v=25"></script>
+</body>
+</html>
+

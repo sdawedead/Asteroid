@@ -1,0 +1,25 @@
+# Local and generated files
+*.bak
+*.log
+*.tmp
+*.pyc
+__pycache__/
+chrome-*/
+edge-*/
+*.pre-*
+*_preview*.png
+surface_*.png
+landing_cards.png
+nightingale_real.png
+bennu_rubble_*.png
+bennu_v*.png
+
+# Large source / development-only assets
+assets/nightingale.glb
+assets/bennu_global_source.glb
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
